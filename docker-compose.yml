@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app:
+    build: ./app
+
+  db:
+    image: mariadb:10.8
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: example
