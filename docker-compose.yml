@@ -3,9 +3,16 @@ version: '3'
 services:
   app:
     build: ./app
+    environment:
+      DB_HOST: db
+      DB_USER: dbuser
+      DB_PASSWORD: dbpass
+      DB_DATABASE: sample
 
   db:
     image: mariadb:10.8
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: example
+      MARIADB_ROOT_PASSWORD: dbpass
+    volumes:
+      - init_database.sql:/docker-entrypoint-initdb.d/init_database.sql

@@ -1,7 +1,7 @@
-import { SignupResult } from "./types"
+import { SignupRequestBody, SignupResult } from "./types"
 
-export async function signup(username: string, password: string): Promise<SignupResult> {
-  const data = { username, password }
+export async function signup(email: string, username: string, password: string): Promise<SignupResult> {
+  const data: SignupRequestBody = { email, username, password }
   const response = await fetch('/api/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
