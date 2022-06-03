@@ -1,15 +1,38 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { ChangeEvent, FormEvent, useState } from 'react'
+import { login } from '../lib/user'
 
 const Login: NextPage = () => {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const router = useRouter()
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const result = await login(email, password)
+    if (result.success) {
+      router.push('/')
+    }
+  }
+
+  const changeEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
+  }
+  const changePassword = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+  }
+
   return (
     <div>
       <main>
         <h2>ログイン</h2>
-        
-        <form>
-          <input type="text" />
-          <input type="password" />
+
+        <form onSubmit={handleSubmit}>
+          <input type="text" name="email" value={email} onChange={changeEmail} />
+          <input type="password" name="password" value={password} onChange={changePassword} />
           <button>ログイン</button>
         </form>
         <Link href="/forget-password">

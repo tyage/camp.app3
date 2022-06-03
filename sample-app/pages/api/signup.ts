@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { connection } from '../../lib/db';
+import { getConnection } from '../../lib/db';
 import { SignupRequestBody, SignupResult } from '../../lib/types'
 import { hashPassword } from '../../lib/user';
 
@@ -15,7 +15,8 @@ export default async function handler(
   const { email, username, password } = req.body
   const passwordHash = hashPassword(password)
   try {
-    await connection.promise().query(
+    const connection = await getConnection()
+    await connection.query(
       'INSERT INTO `users` (email, username, password_hash) VALUES (?, ?, ?)',
       [email, username, passwordHash]
     )
