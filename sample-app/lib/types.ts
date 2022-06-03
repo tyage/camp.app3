@@ -1,3 +1,5 @@
+import { RowDataPacket } from "mysql2"
+
 export type SignupRequestBody = {
   email: string,
   username: string,
@@ -20,4 +22,11 @@ export type ResetPasswordRequestBody = {
   email: string
 }
 export type ResetPasswordResult = {
+}
+
+export interface User extends RowDataPacket {
+  id: number;
+  email: string;
+  username: string;
+  password_hash: string;
 }

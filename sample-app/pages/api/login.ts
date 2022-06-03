@@ -1,5 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { FieldPacket, RowDataPacket } from 'mysql2';
+import { RowDataPacket } from 'mysql2';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getConnection } from '../../lib/db';
 import { LoginRequestBody, LoginResult } from '../../lib/types'

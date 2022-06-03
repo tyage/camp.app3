@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { login } from '../lib/user'
+import { login } from '../lib/api'
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState("")

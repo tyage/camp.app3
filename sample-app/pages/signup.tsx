@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { signup } from '../lib/user'
+import { signup } from '../lib/api'
 
 const Signup: NextPage = () => {
-  const [ email, setEmail ] = useState("")
-  const [ username, setUsername ] = useState("")
-  const [ password, setPassword ] = useState("")
+  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
   const router = useRouter()
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -32,7 +32,7 @@ const Signup: NextPage = () => {
     <div>
       <main>
         <h2>ユーザ登録</h2>
-        
+
         <form onSubmit={handleSubmit}>
           <input type="text" name="email" value={email} onChange={changeEmail} />
           <input type="text" name="username" value={username} onChange={changeUsername} />
