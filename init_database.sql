@@ -1,7 +1,10 @@
-CREATE DATABASE IF NOT EXISTS example;
-CREATE TABLE IF NOT EXISTS example.users(
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar NOT NULL
-  `username` varchar NOT NULL
-  `password_hash` varchar NOT NULL
+CREATE DATABASE IF NOT EXISTS sample;
+USE sample;
+
+CREATE TABLE IF NOT EXISTS users(
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `username` VARCHAR(255) NOT NULL,
+  `password_hash` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

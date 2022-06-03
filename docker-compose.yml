@@ -2,17 +2,22 @@ version: '3'
 
 services:
   app:
-    build: ./app
+    build: ./sample-app
     environment:
       DB_HOST: db
       DB_USER: dbuser
       DB_PASSWORD: dbpass
       DB_DATABASE: sample
+    ports:
+      - 3000:3000
 
   db:
     image: mariadb:10.8
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: dbpass
+      MARIADB_USER: dbuser
+      MARIADB_PASSWORD: dbpass
+      MARIADB_DATABASE: sample
+      MARIADB_RANDOM_ROOT_PASSWORD: yes
     volumes:
-      - init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
+      - ./init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
