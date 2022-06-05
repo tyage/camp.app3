@@ -18,6 +18,6 @@ services:
       MARIADB_USER: dbuser
       MARIADB_PASSWORD: dbpass
       MARIADB_DATABASE: sample
-      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_RANDOM_ROOT_PASSWORD: 1
     volumes:
       - ./init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
