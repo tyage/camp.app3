@@ -8,6 +8,8 @@ services:
       DB_USER: dbuser
       DB_PASSWORD: dbpass
       DB_DATABASE: sample
+      MAILGUN_DOMAIN: ${MAILGUN_DOMAIN}
+      MAILGUN_API_KEY: ${MAILGUN_API_KEY}
     ports:
       - 3000:3000
 

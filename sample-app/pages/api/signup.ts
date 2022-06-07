@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getConnection } from '../../lib/db';
+import { getConnection } from '../../lib/db'
 import { SignupRequestBody, SignupResult } from '../../lib/types'
-import { hashPassword } from '../../lib/user';
+import { hashPassword } from '../../lib/user'
 
 interface SignupNextApiRequest extends NextApiRequest {
   body: SignupRequestBody

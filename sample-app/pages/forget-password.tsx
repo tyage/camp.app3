@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { ChangeEvent, FormEvent, useState } from 'react'
-import { sendResetPasswordMail } from '../lib/api'
+import { sendForgetPasswordMail } from '../lib/api'
 
 const ForgetPassword: NextPage = () => {
   const [email, setEmail] = useState("")
@@ -12,7 +12,7 @@ const ForgetPassword: NextPage = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    sendResetPasswordMail(email)
+    sendForgetPasswordMail(email)
   }
 
   return (

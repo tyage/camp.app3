@@ -1,45 +1,45 @@
-import { FieldPacket, RowDataPacket } from 'mysql2';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getConnection } from '../../lib/db';
-import { sendMail } from '../../lib/sendmail';
-import { ResetPasswordRequestBody, ResetPasswordResult, User } from '../../lib/types'
-import { createPasswordResetToken } from '../../lib/user';
+import { getConnection } from '../../lib/db'
+import { PasswordReset, ResetPasswordRequestBody, ResetPasswordResult } from '../../lib/types'
+import { hashPassword } from '../../lib/user'
 
-interface ResetPasswordNextApiRequest extends NextApiRequest {
+interface ResetPasswordRequest extends NextApiRequest {
   body: ResetPasswordRequestBody
 }
 
 export default async function handler(
-  req: ResetPasswordNextApiRequest,
+  req: ResetPasswordRequest,
   res: NextApiResponse<ResetPasswordResult>
 ) {
-  const { email } = req.body
+  const { token, newPassword } = req.body
   try {
     const connection = await getConnection()
-    const [rows] = await connection.query<User[]>(
-      'SELECT * FROM `users` WHERE email = ?',
-      [email]
+    const [rows] = await connection.query<PasswordReset[]>(
+      'SELECT * FROM `password_resets` WHERE token = ?',
+      [token]
     )
     if (rows.length === 0) {
-      return res.status(200).json({})
+      // 無効なトークン
+      return res.status(200).json({ success: false })
     }
-    const user = rows[0]
+    const { id: passwordResetId, user_id: userId } = rows[0]
 
-    // create reset token and save it with user id
-    const token = createPasswordResetToken()
+    // ユーザのパスワードを変更
+    const newHashedPassword = hashPassword(newPassword)
     await connection.query(
-      'INSERT INTO `password_resets` (user_id, token) VALUES (?, ?)',
-      [user.id, token]
+      'UPDATE `users` SET password_hash = ? WHERE id = ?',
+      [newHashedPassword, userId]
     )
 
-    // send reset password email
-    const mailTitle = 'Hi'
-    const mailBody = `Please access to http://localhost:8000/reset-password?token=${token}`
-    sendMail(email, mailTitle, mailBody)
+    // トークンを無効化
+    await connection.query(
+      'DELETE FROM `password_resets` WHERE id = ?',
+      [passwordResetId]
+    )
 
-    return res.status(200).json({})
+    res.status(200).json({ success: true })
   } catch (e) {
     console.error(e)
-    res.status(500).json({})
+    res.status(500).json({ success: false })
   }
 }

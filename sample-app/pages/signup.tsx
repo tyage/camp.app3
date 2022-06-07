@@ -34,9 +34,18 @@ const Signup: NextPage = () => {
         <h2>ユーザ登録</h2>
 
         <form onSubmit={handleSubmit}>
-          <input type="text" name="email" value={email} onChange={changeEmail} />
-          <input type="text" name="username" value={username} onChange={changeUsername} />
-          <input type="password" name="password" value={password} onChange={changePassword} />
+          <div>
+            <p>メールアドレス:</p>
+            <input type="text" name="email" value={email} onChange={changeEmail} />
+          </div>
+          <div>
+            <p>ユーザ名:</p>
+            <input type="text" name="username" value={username} onChange={changeUsername} />
+          </div>
+          <div>
+            <p>パスワード:</p>
+            <input type="password" name="password" value={password} onChange={changePassword} />
+          </div>
           <button>登録</button>
         </form>
       </main>

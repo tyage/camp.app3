@@ -1,4 +1,4 @@
-import { LoginRequestBody, LoginResult, ResetPasswordRequestBody, ResetPasswordResult, SignupRequestBody, SignupResult } from "./types"
+import { LoginRequestBody, LoginResult, ForgetPasswordRequestBody, ForgetPasswordResult, SignupRequestBody, SignupResult, ResetPasswordResult, ResetPasswordRequestBody } from "./types"
 
 export async function signup(email: string, username: string, password: string): Promise<SignupResult> {
   const data: SignupRequestBody = { email, username, password }
@@ -20,8 +20,18 @@ export async function login(email: string, password: string): Promise<LoginResul
   return await response.json()
 }
 
-export async function sendResetPasswordMail(email: string): Promise<ResetPasswordResult> {
-  const data: ResetPasswordRequestBody = { email }
+export async function sendForgetPasswordMail(email: string): Promise<ForgetPasswordResult> {
+  const data: ForgetPasswordRequestBody = { email }
+  const response = await fetch('/api/forget-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  return await response.json()
+}
+
+export async function resetPassword(token: string, newPassword: string): Promise<ResetPasswordResult> {
+  const data: ResetPasswordRequestBody = { token, newPassword }
   const response = await fetch('/api/reset-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

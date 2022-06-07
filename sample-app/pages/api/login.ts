@@ -1,8 +1,8 @@
-import { RowDataPacket } from 'mysql2';
+import { RowDataPacket } from 'mysql2'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getConnection } from '../../lib/db';
+import { getConnection } from '../../lib/db'
 import { LoginRequestBody, LoginResult } from '../../lib/types'
-import { hashPassword } from '../../lib/user';
+import { hashPassword } from '../../lib/user'
 
 interface LoginNextApiRequest extends NextApiRequest {
   body: LoginRequestBody
