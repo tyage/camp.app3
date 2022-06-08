@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
+import { toast } from 'react-toastify'
 import { resetPassword } from '../lib/api'
 
 const ResetPassword: NextPage = () => {
@@ -11,7 +12,13 @@ const ResetPassword: NextPage = () => {
     event.preventDefault()
 
     const token = router.query.token?.toString() || ""
-    resetPassword(token, password)
+    const { success } = await resetPassword(token, password)
+    if (success) {
+      toast.success('パスワードが変更されました')
+      router.push('/')
+    } else {
+      toast.success('パスワードの変更に失敗しました')
+    }
   }
 
   return (
