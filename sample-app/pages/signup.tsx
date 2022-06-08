@@ -1,6 +1,8 @@
+import { Box, Button, TextField, Typography } from '@mui/material'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
+import { toast } from 'react-toastify'
 import { signup } from '../lib/api'
 
 const Signup: NextPage = () => {
@@ -14,42 +16,54 @@ const Signup: NextPage = () => {
 
     const result = await signup(email, username, password)
     if (result.success) {
+      toast.success('ユーザ登録に成功しました')
       router.push('/login')
+    } else {
+      toast.error('ユーザ登録に失敗しました')
     }
   }
 
-  const changeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-  const changeUsername = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value)
-  }
-  const changePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
-
   return (
-    <div>
-      <main>
-        <h2>ユーザ登録</h2>
+    <>
+      <Typography component="h1" variant="h5">
+        ユーザ登録
+      </Typography>
 
-        <form onSubmit={handleSubmit}>
-          <div>
-            <p>メールアドレス:</p>
-            <input type="text" name="email" value={email} onChange={changeEmail} />
-          </div>
-          <div>
-            <p>ユーザ名:</p>
-            <input type="text" name="username" value={username} onChange={changeUsername} />
-          </div>
-          <div>
-            <p>パスワード:</p>
-            <input type="password" name="password" value={password} onChange={changePassword} />
-          </div>
-          <button>登録</button>
-        </form>
-      </main>
-    </div>
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <TextField
+          margin="normal"
+          fullWidth
+          label="メールアドレス"
+          type="text"
+          onChange={
+            (e) => setEmail(e.target.value)
+          } />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="ユーザ名"
+          type="text"
+          onChange={
+            (e) => setUsername(e.target.value)
+          } />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="パスワード"
+          type="password"
+          onChange={
+            (e) => setPassword(e.target.value)
+          } />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 2 }}
+        >
+          登録
+        </Button>
+      </Box>
+    </>
   )
 }
 

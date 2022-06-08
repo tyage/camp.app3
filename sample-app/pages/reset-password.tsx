@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
 import { resetPassword } from '../lib/api'
+import { Button, Box, TextField, Typography } from '@mui/material'
 
 const ResetPassword: NextPage = () => {
   const router = useRouter()
@@ -17,24 +18,33 @@ const ResetPassword: NextPage = () => {
       toast.success('パスワードが変更されました')
       router.push('/')
     } else {
-      toast.success('パスワードの変更に失敗しました')
+      toast.error('パスワードの変更に失敗しました')
     }
   }
 
   return (
-    <div>
-      <main>
-        <h2>パスワードを変更</h2>
+    <>
+      <Typography component="h1" variant="h5">パスワードを変更</Typography>
 
-        <form onSubmit={handleSubmit}>
-          新しいパスワード:
-          <input type="text" name="password" value={password} onChange={
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <TextField
+          margin="normal"
+          fullWidth
+          label="新しいパスワード"
+          type="password"
+          onChange={
             (e) => setPassword(e.target.value)
           } />
-          <button>パスワードを変更</button>
-        </form>
-      </main>
-    </div>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 2 }}
+        >
+          パスワードを変更
+        </Button>
+      </Box>
+    </>
   )
 }
 

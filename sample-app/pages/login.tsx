@@ -1,7 +1,9 @@
+import { Box, Button, Link, TextField, Typography } from '@mui/material'
 import type { NextPage } from 'next'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { useRouter } from 'next/router'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
+import { toast } from 'react-toastify'
 import { login } from '../lib/api'
 
 const Login: NextPage = () => {
@@ -14,32 +16,53 @@ const Login: NextPage = () => {
 
     const result = await login(email, password)
     if (result.success) {
+      toast.success('ログイン完了')
       router.push('/')
+    } else {
+      toast.error('ログイン失敗')
     }
   }
 
-  const changeEmail = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
-  const changePassword = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value)
-  }
-
   return (
-    <div>
-      <main>
-        <h2>ログイン</h2>
+    <>
+      <Typography component="h1" variant="h5">
+        ログイン
+      </Typography>
 
-        <form onSubmit={handleSubmit}>
-          <input type="text" name="email" value={email} onChange={changeEmail} />
-          <input type="password" name="password" value={password} onChange={changePassword} />
-          <button>ログイン</button>
-        </form>
-        <Link href="/forget-password">
-          <a>パスワードを忘れた方</a>
-        </Link>
-      </main>
-    </div>
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <TextField
+          margin="normal"
+          fullWidth
+          label="メールアドレス"
+          type="text"
+          onChange={
+            (e) => setEmail(e.target.value)
+          } />
+        <TextField
+          margin="normal"
+          fullWidth
+          label="パスワード"
+          type="password"
+          onChange={
+            (e) => setPassword(e.target.value)
+          } />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 2 }}
+        >
+          ログイン
+        </Button>
+        <Box sx={{ mt: 2 }}>
+          <NextLink href="/forget-password">
+            <Link>
+              パスワードを忘れた方
+            </Link>
+          </NextLink>
+        </Box>
+      </Box>
+    </>
   )
 }
 
