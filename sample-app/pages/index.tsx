@@ -1,22 +1,23 @@
 import { Link } from '@mui/material'
 import type { NextPage } from 'next'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
+import { useContext, useEffect } from 'react'
+import { UserContext } from '../lib/context'
 
 const Home: NextPage = () => {
+  const { user } = useContext(UserContext)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user === null) {
+      router.push('/login')
+    }
+  }, [user])
+
   return (
     <>
-      <nav>
-        <NextLink href="/signup">
-          <Link>
-            ユーザ登録
-          </Link>
-        </NextLink>
-        <NextLink href="/login">
-          <Link>
-            ログイン
-          </Link>
-        </NextLink>
-      </nav>
+      こんにちは {user?.username} さん！
     </>
   )
 }

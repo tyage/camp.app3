@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getConnection } from '../../lib/db'
 import { sendMail } from '../../lib/sendmail'
-import { ForgetPasswordRequestBody, ForgetPasswordResult, User } from '../../lib/types'
+import { ForgetPasswordRequestBody, ForgetPasswordResult, UserRow } from '../../lib/types'
 import { createPasswordResetToken } from '../../lib/user'
 
 interface ForgetPasswordNextApiRequest extends NextApiRequest {
@@ -15,7 +15,7 @@ export default async function handler(
   const { email } = req.body
   try {
     const connection = await getConnection()
-    const [rows] = await connection.query<User[]>(
+    const [rows] = await connection.query<UserRow[]>(
       'SELECT * FROM `users` WHERE email = ?',
       [email]
     )

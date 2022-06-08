@@ -2,20 +2,23 @@ import { Box, Button, Link, TextField, Typography } from '@mui/material'
 import type { NextPage } from 'next'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { toast } from 'react-toastify'
 import { login } from '../lib/api'
+import { UserContext } from '../lib/context'
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const router = useRouter()
+  const { setUser } = useContext(UserContext)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const result = await login(email, password)
-    if (result.success) {
+    if (result.success && result.user) {
+      setUser(result.user)
       toast.success('ログイン完了')
       router.push('/')
     } else {
@@ -55,7 +58,14 @@ const Login: NextPage = () => {
           ログイン
         </Button>
         <Box sx={{ mt: 2 }}>
-          <NextLink href="/forget-password">
+          <NextLink href="/signup" passHref>
+            <Link>
+              ユーザ登録
+            </Link>
+          </NextLink>
+        </Box>
+        <Box sx={{ mt: 2 }}>
+          <NextLink href="/forget-password" passHref>
             <Link>
               パスワードを忘れた方
             </Link>

@@ -15,7 +15,8 @@ export type LoginRequestBody = {
 }
 export type LoginResult = {
   success: boolean,
-  message?: string
+  message?: string,
+  user?: UserModel
 }
 
 export type ForgetPasswordRequestBody = {
@@ -32,13 +33,23 @@ export type ResetPasswordResult = {
   success: boolean
 }
 
-export interface User extends RowDataPacket {
+export interface UserContextProps {
+  user: UserModel | null;
+  setUser: (user: UserModel | null) => void;
+}
+export type UserModel = {
+  id: number,
+  email: string,
+  username: string
+}
+
+export interface UserRow extends RowDataPacket {
   id: number;
   email: string;
   username: string;
   password_hash: string;
 }
-export interface PasswordReset extends RowDataPacket {
+export interface PasswordResetRow extends RowDataPacket {
   id: number;
   user_id: number;
   token: string;

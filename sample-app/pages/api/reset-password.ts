@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getConnection } from '../../lib/db'
-import { PasswordReset, ResetPasswordRequestBody, ResetPasswordResult } from '../../lib/types'
+import { PasswordResetRow, ResetPasswordRequestBody, ResetPasswordResult } from '../../lib/types'
 import { hashPassword } from '../../lib/user'
 
 interface ResetPasswordRequest extends NextApiRequest {
@@ -14,7 +14,7 @@ export default async function handler(
   const { token, newPassword } = req.body
   try {
     const connection = await getConnection()
-    const [rows] = await connection.query<PasswordReset[]>(
+    const [rows] = await connection.query<PasswordResetRow[]>(
       'SELECT * FROM `password_resets` WHERE token = ?',
       [token]
     )
