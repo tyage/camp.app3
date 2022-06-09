@@ -1,6 +1,5 @@
-import { Link } from '@mui/material'
+import { Typography } from '@mui/material'
 import type { NextPage } from 'next'
-import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
 import { UserContext } from '../lib/context'
@@ -17,7 +16,9 @@ const Home: NextPage = () => {
 
   return (
     <>
-      こんにちは {user?.username} さん！
+      {user &&
+        <Typography variant="h5">こんにちは {user.username} さん！</Typography>
+      }
     </>
   )
 }

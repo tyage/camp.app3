@@ -30,11 +30,12 @@ export default async function handler(
       'INSERT INTO `password_resets` (user_id, token) VALUES (?, ?)',
       [user.id, token]
     )
+    const passwordResetURL = `${process.env.APP_BASE_URL}/reset-password?token=${token}`
 
     // send reset password email
-    const mailTitle = 'Hi'
-    const mailBody = `Please access to http://localhost:8000/reset-password?token=${token}`
-    sendMail(email, mailTitle, mailBody)
+    const mailTitle = 'パスワードリセット'
+    const mailBody = `パスワードをリセットするには下記URLにアクセスしてください。 ${passwordResetURL}`
+    const result = await sendMail(email, mailTitle, mailBody)
 
     return res.status(200).json({})
   } catch (e) {

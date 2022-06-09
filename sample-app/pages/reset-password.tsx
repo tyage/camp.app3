@@ -16,7 +16,7 @@ const ResetPassword: NextPage = () => {
     const { success } = await resetPassword(token, password)
     if (success) {
       toast.success('パスワードが変更されました')
-      router.push('/')
+      router.push('/login')
     } else {
       toast.error('パスワードの変更に失敗しました')
     }
