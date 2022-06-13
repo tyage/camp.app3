@@ -12,7 +12,7 @@ const Home: NextPage = () => {
     if (user === null) {
       router.push('/login')
     }
-  }, [user])
+  }, [user, router])
 
   return (
     <>
