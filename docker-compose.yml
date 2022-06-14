@@ -13,6 +13,8 @@ services:
       APP_BASE_URL: http://localhost:3000
     ports:
       - 3000:3000
+    volumes:
+      - ./sample-app:/app
 
   db:
     image: mariadb:10.8
