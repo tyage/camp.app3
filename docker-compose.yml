@@ -16,7 +16,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./sample-app:/app
+      - ./app:/app
 
   db:
     image: mariadb:10.8
