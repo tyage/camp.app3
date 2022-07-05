@@ -17,6 +17,8 @@ services:
       - 3000:3000
     volumes:
       - ./app:/app
+      - /app/node_modules
+      - /app/.next
 
   db:
     image: mariadb:10.8
