@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    build: ./sample-app
+    build: ./app
     environment:
       DB_HOST: db
       DB_USER: dbuser
