@@ -6,11 +6,12 @@ import Mailjet from 'node-mailjet'
 import { IAPIResponse } from 'node-mailjet/declarations/types/api/Response'
 import { TRequestData } from 'node-mailjet/declarations/request/IRequest'
 
-const mailjet = new Mailjet({
-  apiKey: process.env.MJ_APIKEY_PUBLIC,
-  apiSecret: process.env.MJ_APIKEY_PRIVATE
-})
 export async function sendMailViaMailjet(to: string, subject: string, text: string): Promise<IAPIResponse<TRequestData>> {
+  const mailjet = new Mailjet({
+    apiKey: process.env.MJ_APIKEY_PUBLIC,
+    apiSecret: process.env.MJ_APIKEY_PRIVATE
+  })
+
   return await mailjet
     .post('send', { version: 'v3.1' })
     .request({
