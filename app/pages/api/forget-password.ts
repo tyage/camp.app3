@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getConnection } from '../../lib/db'
-import { sendMailViaMailjet } from '../../lib/sendmail'
+import { sendMailViaMailgun, sendMailViaMailjet } from '../../lib/sendmail'
 import { ForgetPasswordRequestBody, ForgetPasswordResult, UserRow } from '../../lib/types'
 import { createPasswordResetToken } from '../../lib/user'
 
@@ -33,9 +33,10 @@ export default async function handler(
     const passwordResetURL = `${process.env.APP_BASE_URL}/reset-password?token=${token}`
 
     // send reset password email
-    const mailTitle = 'パスワードリセット'
-    const mailBody = `パスワードをリセットするには下記URLにアクセスしてください。 ${passwordResetURL}`
-    const result = await sendMailViaMailjet(email, mailTitle, mailBody)
+    const mailTitle = 'Password Reset'
+    const mailBody = `Visit the URL to reset your password.
+${passwordResetURL}`
+    const result = await sendMailViaMailgun(email, mailTitle, mailBody)
 
     return res.status(200).json({})
   } catch (e) {
